@@ -1,6 +1,7 @@
 require('dotenv').config(); // 確保環境變量被加載
 const express = require('express')
 const mongoose = require('mongoose')
+const { engine } = require('express-handlebars');
 
 const app = express()
 
@@ -15,9 +16,13 @@ const db = mongoose.connection
 db.on('error',() => console.log('MongoDB error'))
 db.once('open', () => console.log('MongoDB success'))
 
+app.engine('.hbs', engine({ extname: '.hbs'}));
+app.set('view engine', '.hbs');
+app.set('views', './views');
+
 
 app.get('/', (req,res)=>{
-    res.send('Hello World')
+    res.render('index')
 })
 
 app.listen(3000, ()=>{
