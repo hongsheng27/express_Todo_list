@@ -5,8 +5,9 @@ const { engine } = require('express-handlebars');
 
 const app = express()
 
-mongoose.connect(process.env.MONGODB_URI)
+const Todo = require('./models/todo')
 
+mongoose.connect(process.env.MONGODB_URI)
 
 // if(process.env.Node_ENV !=='production'){
 //     require('dotenv').config()
@@ -22,7 +23,12 @@ app.set('views', './views');
 
 
 app.get('/', (req,res)=>{
-    res.render('index')
+    Todo.find()
+        .lean()
+        .then(
+            todos => res.render('index',{todos})
+        )
+        .catch(error=> console.error(error))
 })
 
 app.listen(3000, ()=>{
