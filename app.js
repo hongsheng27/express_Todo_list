@@ -10,9 +10,6 @@ const Todo = require('./models/todo')
 
 mongoose.connect(process.env.MONGODB_URI)
 
-// if(process.env.Node_ENV !=='production'){
-//     require('dotenv').config()
-// }
 
 const db = mongoose.connection
 db.on('error',() => console.log('MongoDB error'))
@@ -28,6 +25,7 @@ app.use(bodyParser.urlencoded({extends: true}))
 app.get('/', (req,res)=>{
     Todo.find()
         .lean()
+        .sort({_id: 'asc'})
         .then(
             todos => res.render('index',{todos})
         )
