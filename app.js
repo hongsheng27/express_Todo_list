@@ -73,6 +73,24 @@ app.post('/todos/:id/edit', (req,res)=>{
         .catch(error => console.error(error))
 })
 
+
+app.post('/todos/:id/delete', (req,res)=>{
+    const id = req.params.id
+    return Todo.findById(id)
+        .then(todo => {
+            if(!todo){
+                throw new Error('todo not found')
+            }
+            return todo.deleteOne()
+        })
+        .then(()=> res.redirect(`/`))
+        .catch(error => console.error(error))
+    // return Todo.findById(id)
+    //     .then(todo => todo.remove())
+    //     .then(()=> res.redirect(`/`))
+    //     .catch(error => console.error(error))
+})
+
 app.listen(3000, ()=>{
     console.log('Server is running on port http:localhost3000')
 })
