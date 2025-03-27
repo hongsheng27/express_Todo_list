@@ -23,11 +23,11 @@ app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
+usePassport(app);
+
 app.use(bodyParser.urlencoded({ extends: true }));
 app.use(methodOverride('_method'));
 app.use(routes);
-
-usePassport(app);
 
 app.listen(3000, () => {
   console.log('Server is running on port http:localhost3000');
