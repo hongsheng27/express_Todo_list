@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 require('dotenv').config(); // 確保環境變量被加載
+const usePassport = require('./config/passport');
 
 const routes = require('./routes');
 require('./config/mongoose');
@@ -25,6 +26,8 @@ app.set('views', './views');
 app.use(bodyParser.urlencoded({ extends: true }));
 app.use(methodOverride('_method'));
 app.use(routes);
+
+usePassport(app);
 
 app.listen(3000, () => {
   console.log('Server is running on port http:localhost3000');
